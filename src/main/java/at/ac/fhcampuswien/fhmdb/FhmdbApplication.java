@@ -1,13 +1,11 @@
 package at.ac.fhcampuswien.fhmdb;
 
-import at.ac.fhcampuswien.fhmdb.DataLayer.Database;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Objects;
 
 public class FhmdbApplication extends Application {
@@ -20,11 +18,14 @@ public class FhmdbApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        try {
+        /*try {
             Database.getInstance().testDB();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
+
+        /*List<Movie> test = Movie.initializeMovies();
+        System.out.println(WatchlistEntity.genresToString(test.get(0).getGenres()));*/
     }
 
     public static void main(String[] args) {

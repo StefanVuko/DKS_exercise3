@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
@@ -19,6 +20,8 @@ public class MovieCell extends ListCell<Movie> {
     private final JFXButton detailBtn = new JFXButton("Show Details");
     private final VBox layout = new VBox(title, detail, genre, detailBtn);
     private boolean collapsedDetails = true;
+
+    WatchlistRepository repository = new WatchlistRepository();
 
     public MovieCell() {
         super();

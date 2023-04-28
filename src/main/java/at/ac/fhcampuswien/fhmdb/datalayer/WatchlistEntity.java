@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.fhmdb.DataLayer;
+package at.ac.fhcampuswien.fhmdb.datalayer;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import com.j256.ormlite.field.DatabaseField;
@@ -12,28 +12,28 @@ public class WatchlistEntity {
     private long ID;
 
     @DatabaseField
-    String ApiID;
+    private String ApiID;
 
     @DatabaseField
-    String title;
+    private String title;
 
     @DatabaseField
-    String description;
+    private String description;
 
     @DatabaseField
-    String genres;
+    private String genres;
 
     @DatabaseField
-    int releaseYear;
+    private int releaseYear;
 
     @DatabaseField
-    String imgURL;
+    private String imgURL;
 
     @DatabaseField
-    int lengthInMinutes;
+    private int lengthInMinutes;
 
     @DatabaseField
-    double rating;
+    private double rating;
 
     public WatchlistEntity()
     {
@@ -123,8 +123,12 @@ public class WatchlistEntity {
         this.rating = rating;
     }
 
-    String genresToString(List<Genre> genres)
+    public static String genresToString(List<Genre> genres)
     {
-        return null;
+        String result = "";
+        for (var item: genres) {
+            result += item.toString() + ",";
+        }
+        return result;
     }
 }

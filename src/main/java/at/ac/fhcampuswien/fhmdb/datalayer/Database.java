@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.fhmdb.DataLayer;
+package at.ac.fhcampuswien.fhmdb.datalayer;
 
 
 import com.j256.ormlite.dao.Dao;
@@ -10,13 +10,13 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 
 public class Database {
-    public static final String DB_URL = "jdbc:h2:file: ./db/movieDB";
+    public static final String DB_URL = "jdbc:h2:file: ./db/moviesDB";
     public static final String username = "user";
     public static final String password = "pass";
 
     private static ConnectionSource connectionSource;
 
-    Dao<WatchlistEntity, Long> dao;
+    private Dao<WatchlistEntity, Long> dao;
 
     private static Database instance;
 
@@ -39,6 +39,11 @@ public class Database {
         }
 
         return instance;
+    }
+
+    public Dao<WatchlistEntity, Long> getDao()
+    {
+        return dao;
     }
 
     public  ConnectionSource getConnectionSource()
