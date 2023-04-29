@@ -18,11 +18,16 @@ public class WatchlistRepository {
     }
 
     public void addToWatchlist(Movie movie) throws SQLException {
-        dao.create(movieToEntity(movie));
+        String title = movie.getTitle().replace("'", "''");
+        if (dao.queryForEq("title", title).isEmpty()) {
+            dao.create(movieToEntity(movie));
+            System.out.println("Added " + movie.getTitle() + " to Watchlist");
+        }
     }
 
     public void removeFromWatchlist(Movie movie) throws SQLException {
         dao.delete(movieToEntity(movie));
+        System.out.println("Removed " + movie.getTitle() + " from Watchlist");
     }
 
     private WatchlistEntity movieToEntity(Movie movie)
