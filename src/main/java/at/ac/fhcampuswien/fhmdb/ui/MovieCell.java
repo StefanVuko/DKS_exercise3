@@ -1,9 +1,13 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -13,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import org.h2.jdbc.JdbcSQLException;
 
+import java.io.IOException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
 
@@ -25,11 +31,13 @@ public class MovieCell extends ListCell<Movie> {
     private final VBox layout = new VBox(title, detail, genre, addToWatchlistBtn, detailBtn);
     private boolean collapsedDetails = true;
 
+    private final boolean isWatchlistCell;
 
     WatchlistRepository repository = new WatchlistRepository();
 
-    public MovieCell() {
+    public MovieCell(boolean isWatchlistCell) {
         super();
+        this.isWatchlistCell = isWatchlistCell;
         // color scheme
         detailBtn.setStyle("-fx-background-color: #f5c518;");
         detailBtn.setPrefWidth(120);
@@ -70,6 +78,32 @@ public class MovieCell extends ListCell<Movie> {
                 }
 
         });
+
+        addToWatchlistBtn.setText(isWatchlistCell ? "Remove from watchlist" : "Add to watchlist");
+        addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
+            if (isWatchlistCell) {
+                try {
+                    repository.removeFromWatchlist(getItem());
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("watchlist-view.fxml"));
+                    Parent root = FXMLLoader.load(fxmlLoader.getLocation());
+                    Scene scene = addToWatchlistBtn.getScene();
+                    scene.setRoot(root);
+
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                try {
+                    repository.addToWatchlist(getItem());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
     }
 
     private VBox getDetails() {

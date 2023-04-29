@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.datalayer;
 
+import at.ac.fhcampuswien.fhmdb.contoller.WatchlistViewController;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.dao.Dao;
 
@@ -26,9 +27,14 @@ public class WatchlistRepository {
     }
 
     public void removeFromWatchlist(Movie movie) throws SQLException {
-        dao.delete(movieToEntity(movie));
-        System.out.println("Removed " + movie.getTitle() + " from Watchlist");
+        String title = movie.getTitle().replace("'", "''");
+        List<WatchlistEntity> movies = dao.queryForEq("title", title);
+        if (!movies.isEmpty()) {
+            dao.delete(movies);
+            System.out.println("Deleted " + movie.getTitle() + " from Watchlist");
+        }
     }
+
 
     private WatchlistEntity movieToEntity(Movie movie)
     {

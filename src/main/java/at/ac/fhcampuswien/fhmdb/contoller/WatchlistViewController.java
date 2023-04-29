@@ -55,7 +55,7 @@ public class WatchlistViewController {
         );
 
         movieWatchlistView.setItems(movies);
-        movieWatchlistView.setCellFactory(movieListView -> new MovieCell());
+        movieWatchlistView.setCellFactory(movieListView -> new MovieCell(true));
     }
 
 
