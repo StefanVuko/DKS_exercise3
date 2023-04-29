@@ -13,6 +13,9 @@ module at.ac.fhcampuswien.fhmdb {
     opens at.ac.fhcampuswien.fhmdb.models to com.google.gson;
     opens at.ac.fhcampuswien.fhmdb.datalayer to ormlite.jdbc;
     opens at.ac.fhcampuswien.fhmdb to javafx.fxml;
+
     exports at.ac.fhcampuswien.fhmdb.models;
     exports at.ac.fhcampuswien.fhmdb;
+    exports at.ac.fhcampuswien.fhmdb.contoller;
+    opens at.ac.fhcampuswien.fhmdb.contoller to javafx.fxml;
 }

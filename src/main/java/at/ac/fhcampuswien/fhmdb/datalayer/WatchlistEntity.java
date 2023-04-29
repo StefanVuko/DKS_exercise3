@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @DatabaseTable(tableName = "Movie")
 public class WatchlistEntity {
@@ -123,12 +124,18 @@ public class WatchlistEntity {
         this.rating = rating;
     }
 
-    public static String genresToString(List<Genre> genres)
-    {
+    public static String genresToString(List<Genre> genres) {
+
         String result = "";
         for (var item: genres) {
             result += item.toString() + ",";
         }
         return result;
     }
+    /* public static String genresToString(List<Genre> genres) {
+     * return genres.stream()
+     *          .map(genre -> genre.name())
+     *           .collect(Collectors.joining(","));
+     *}
+     */
 }

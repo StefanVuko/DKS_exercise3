@@ -13,7 +13,7 @@ public class WatchlistRepository {
     {
         this.dao = Database.getInstance().getDao();
     }
-    List<WatchlistEntity> getAll() throws SQLException {
+    public List<WatchlistEntity> getAll() throws SQLException {
         return dao.queryForAll();
     }
 

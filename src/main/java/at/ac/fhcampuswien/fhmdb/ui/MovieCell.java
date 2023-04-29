@@ -4,13 +4,16 @@ import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import org.h2.jdbc.JdbcSQLException;
 
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 public class MovieCell extends ListCell<Movie> {
@@ -18,8 +21,10 @@ public class MovieCell extends ListCell<Movie> {
     private final Label detail = new Label();
     private final Label genre = new Label();
     private final JFXButton detailBtn = new JFXButton("Show Details");
-    private final VBox layout = new VBox(title, detail, genre, detailBtn);
+    private final JFXButton addToWatchlistBtn = new JFXButton("Add to watchlist");
+    private final VBox layout = new VBox(title, detail, genre, addToWatchlistBtn, detailBtn);
     private boolean collapsedDetails = true;
+
 
     WatchlistRepository repository = new WatchlistRepository();
 
@@ -27,6 +32,9 @@ public class MovieCell extends ListCell<Movie> {
         super();
         // color scheme
         detailBtn.setStyle("-fx-background-color: #f5c518;");
+        detailBtn.setPrefWidth(120);
+        addToWatchlistBtn.setStyle("-fx-background-color: #f5c518;");
+        addToWatchlistBtn.setPrefWidth(120);
         title.getStyleClass().add("text-yellow");
         detail.getStyleClass().add("text-white");
         genre.getStyleClass().add("text-white");
@@ -51,6 +59,16 @@ public class MovieCell extends ListCell<Movie> {
                 detailBtn.setText("Show Details");
             }
             setGraphic(layout);
+        });
+
+        addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
+
+                try {
+                    repository.addToWatchlist(getItem());
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+
         });
     }
 
