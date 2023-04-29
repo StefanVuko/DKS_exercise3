@@ -54,7 +54,7 @@ public class MovieCell extends ListCell<Movie> {
                 collapsedDetails = false;
                 detailBtn.setText("Hide Details");
             } else {
-                layout.getChildren().remove(4);
+                layout.getChildren().remove(5);
                 collapsedDetails = true;
                 detailBtn.setText("Show Details");
             }
