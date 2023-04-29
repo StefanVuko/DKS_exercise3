@@ -1,9 +1,11 @@
 package at.ac.fhcampuswien.fhmdb.datalayer;
 
 import at.ac.fhcampuswien.fhmdb.models.Genre;
+import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -132,10 +134,19 @@ public class WatchlistEntity {
         }
         return result;
     }
-    /* public static String genresToString(List<Genre> genres) {
-     * return genres.stream()
-     *          .map(genre -> genre.name())
-     *           .collect(Collectors.joining(","));
-     *}
-     */
+
+    public Movie toMovie() {
+        List<Genre> genres = Arrays.stream(this.genres.split(","))
+                .map(Genre::valueOf)
+                .collect(Collectors.toList());
+        return new Movie(ApiID, title, description, genres, releaseYear, imgURL, lengthInMinutes, rating);
+    }
+
+
+//    public static String genresToString(List<Genre> genres) {
+//        return genres.stream()
+//                .map(genre -> genre.name())
+//                .collect(Collectors.joining(","));
+//    }
+
 }

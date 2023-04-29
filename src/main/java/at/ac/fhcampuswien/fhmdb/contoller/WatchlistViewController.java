@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javafx.collections.ObservableList;
 
 public class WatchlistViewController {
@@ -41,17 +43,21 @@ public class WatchlistViewController {
         List<WatchlistEntity> watchlist = new ArrayList<>();
 
         try {
-             watchlist = repo.getAll();
+            watchlist = repo.getAll();
         } catch (SQLException e) {
             throw new RuntimeException();
         }
-       /* ObservableList<WatchlistEntity> observableList = FXCollections.observableList(watchlist);
-        * movieWatchlistView.setItems(observableList);
-        * movieWatchlistView.setCellFactory(movieListView -> new MovieCell());
-        *
-        * kein Plan wie man die Liste von watchlist / watchlistEntity im watchlist-view.fxml darstellt
-       */
+
+        ObservableList<Movie> movies = FXCollections.observableArrayList(
+                watchlist.stream()
+                        .map(WatchlistEntity::toMovie)
+                        .collect(Collectors.toList())
+        );
+
+        movieWatchlistView.setItems(movies);
+        movieWatchlistView.setCellFactory(movieListView -> new MovieCell());
     }
+
 
     public void loadHomeView() {
         FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
