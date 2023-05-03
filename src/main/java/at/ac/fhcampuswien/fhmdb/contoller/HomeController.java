@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.contoller;
 
+import at.ac.fhcampuswien.fhmdb.Exceptions.MovieApiException;
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import at.ac.fhcampuswien.fhmdb.api.MovieAPI;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
@@ -263,7 +264,7 @@ public class HomeController implements Initializable {
             Stage stage = (Stage)mainPane.getScene().getWindow();
             stage.setScene(scene);
 
-        } catch (IOException e) {
+        } catch (IOException ioe) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("An error has occurred.");

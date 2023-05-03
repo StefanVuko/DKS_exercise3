@@ -69,7 +69,7 @@ public class MovieCell extends ListCell<Movie> {
             setGraphic(layout);
         });
 
-        addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
+     /*   addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
 
                 try {
                     repository.addToWatchlist(getItem());
@@ -79,7 +79,9 @@ public class MovieCell extends ListCell<Movie> {
 
         });
 
-        addToWatchlistBtn.setText(isWatchlistCell ? "Remove from watchlist" : "Add to watchlist");
+
+      */
+        addToWatchlistBtn.setText(isWatchlistCell ? "Remove" : "Add to watchlist");
         addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
             if (isWatchlistCell) {
                 try {
@@ -90,11 +92,17 @@ public class MovieCell extends ListCell<Movie> {
                     Scene scene = addToWatchlistBtn.getScene();
                     scene.setRoot(root);
 
+
+
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
+
+
                 }
+
+
             } else {
                 try {
                     repository.addToWatchlist(getItem());
@@ -116,6 +124,7 @@ public class MovieCell extends ListCell<Movie> {
         Label writers = new Label("Writers: " + String.join(", ", getItem().getWriters()));
         Label mainCast = new Label("Main Cast: " + String.join(", ", getItem().getMainCast()));
 
+
         releaseYear.getStyleClass().add("text-white");
         length.getStyleClass().add("text-white");
         rating.getStyleClass().add("text-white");
@@ -123,12 +132,24 @@ public class MovieCell extends ListCell<Movie> {
         writers.getStyleClass().add("text-white");
         mainCast.getStyleClass().add("text-white");
 
-        details.getChildren().add(releaseYear);
-        details.getChildren().add(rating);
-        details.getChildren().add(length);
-        details.getChildren().add(directors);
-        details.getChildren().add(writers);
-        details.getChildren().add(mainCast);
+
+        if (isWatchlistCell){
+            details.getChildren().add(releaseYear);
+            details.getChildren().add(rating);
+            details.getChildren().add(length);
+        } else {
+            details.getChildren().add(releaseYear);
+            details.getChildren().add(rating);
+            details.getChildren().add(length);
+            details.getChildren().add(directors);
+            details.getChildren().add(writers);
+            details.getChildren().add(mainCast);
+        }
+
+
+
+
+
         return details;
     }
     @Override

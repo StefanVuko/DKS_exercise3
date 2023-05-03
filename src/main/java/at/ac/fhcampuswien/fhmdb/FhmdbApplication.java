@@ -18,8 +18,8 @@ public class FhmdbApplication extends Application {
         stage.setTitle("FHMDb!");
         stage.setScene(scene);
         stage.show();
-
-        /*try {
+        /*
+        try {
             Database.getInstance().testDB();
         } catch (SQLException e) {
             e.printStackTrace();
