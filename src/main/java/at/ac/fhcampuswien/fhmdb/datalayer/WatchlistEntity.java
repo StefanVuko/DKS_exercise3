@@ -142,7 +142,6 @@ public class WatchlistEntity {
         return new Movie(ApiID, title, description, genres, releaseYear, imgURL, lengthInMinutes, rating);
     }
 
-
 //    public static String genresToString(List<Genre> genres) {
 //        return genres.stream()
 //                .map(genre -> genre.name())

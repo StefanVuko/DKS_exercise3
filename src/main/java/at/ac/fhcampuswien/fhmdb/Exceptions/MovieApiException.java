@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
-public class MovieApiException extends IOException {
+public class MovieApiException extends Exception {
 
     public MovieApiException(){}
 
@@ -20,12 +20,14 @@ public class MovieApiException extends IOException {
         super(message, cause);
     }
 
-    public void throwAlert() {
+  /*  public void throwAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("An error has occurred.");
         alert.setContentText("Http error.");
     }
+
+   */
 
 }
 

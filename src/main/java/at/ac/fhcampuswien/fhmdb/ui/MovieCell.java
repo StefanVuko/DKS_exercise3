@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.Exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
@@ -8,16 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.h2.jdbc.JdbcSQLException;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.stream.Collectors;
@@ -69,51 +68,58 @@ public class MovieCell extends ListCell<Movie> {
             setGraphic(layout);
         });
 
-     /*   addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
-
-                try {
-                    repository.addToWatchlist(getItem());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-
-        });
-
-
-      */
         addToWatchlistBtn.setText(isWatchlistCell ? "Remove" : "Add to watchlist");
         addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
             if (isWatchlistCell) {
                 try {
                     repository.removeFromWatchlist(getItem());
-
                     FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("watchlist-view.fxml"));
                     Parent root = FXMLLoader.load(fxmlLoader.getLocation());
                     Scene scene = addToWatchlistBtn.getScene();
                     scene.setRoot(root);
-
-
-
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    MovieCell.showExceptionDialog(new DatabaseException("Error by deleting movies"));
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
-
-
+                    MovieCell.showExceptionDialog(new IllegalArgumentException("Fxml cannot be loaded"));
                 }
-
-
             } else {
                 try {
                     repository.addToWatchlist(getItem());
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    MovieCell.showExceptionDialog(new DatabaseException("Error by adding to watchlist"));
                 }
             }
         });
-
     }
 
+    public static void showExceptionDialog(Throwable throwable) {    // source: http://www.java2s.com/example/java/javafx/show-javafx-exception-dialog.html
+        //throwable.printStackTrace();
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Fhmdb Dialog");
+        alert.setHeaderText("Thrown Exception");
+        alert.setContentText("App has thrown an exception.");
+
+        Label label = new Label("The exception stacktrace was:");
+
+        TextArea textArea = new TextArea(throwable.getMessage());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.show();
+    }
     private VBox getDetails() {
         VBox details = new VBox();
         Label releaseYear = new Label("Release Year: " + getItem().getReleaseYear());
@@ -124,14 +130,12 @@ public class MovieCell extends ListCell<Movie> {
         Label writers = new Label("Writers: " + String.join(", ", getItem().getWriters()));
         Label mainCast = new Label("Main Cast: " + String.join(", ", getItem().getMainCast()));
 
-
         releaseYear.getStyleClass().add("text-white");
         length.getStyleClass().add("text-white");
         rating.getStyleClass().add("text-white");
         directors.getStyleClass().add("text-white");
         writers.getStyleClass().add("text-white");
         mainCast.getStyleClass().add("text-white");
-
 
         if (isWatchlistCell){
             details.getChildren().add(releaseYear);
@@ -145,11 +149,6 @@ public class MovieCell extends ListCell<Movie> {
             details.getChildren().add(writers);
             details.getChildren().add(mainCast);
         }
-
-
-
-
-
         return details;
     }
     @Override

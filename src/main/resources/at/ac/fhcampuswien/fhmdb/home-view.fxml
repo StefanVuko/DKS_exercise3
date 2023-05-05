@@ -21,7 +21,7 @@
             </padding>
          </Label>
          <Label styleClass="text-white" stylesheets="@styles.css" text="Welcome to FHMDb!" />
-         <Button mnemonicParsing="false" fx:id="watchlistBtn" onAction="#loadWatchlistView" styleClass="background-yellow" stylesheets="@styles.css" text="Watchlist" />
+         <Button mnemonicParsing="false" fx:id="watchlistBtn" onAction="#loadWatchlistView" styleClass="background-yellow" stylesheets="@styles.css" text="Show Watchlist" />
 
       </children>
    </HBox>

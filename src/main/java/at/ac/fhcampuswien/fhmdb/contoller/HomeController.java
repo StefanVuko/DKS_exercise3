@@ -69,28 +69,34 @@ public class HomeController implements Initializable {
     }
 
     public void initializeState() {
-        List<Movie> result = MovieAPI.getAllMovies();
-        setMovies(result);
-        setMovieList(result);
-        sortedState = SortedState.NONE;
+        List<Movie> result = null;
+        try {
+            result = MovieAPI.getAllMovies();
+            setMovies(result);
+            setMovieList(result);
+            sortedState = SortedState.NONE;
 
-        // test stream methods
-        System.out.println("getMostPopularActor");
-        System.out.println(getMostPopularActor(allMovies));
+            // test stream methods
+            System.out.println("getMostPopularActor");
+            System.out.println(getMostPopularActor(allMovies));
 
-        System.out.println("getLongestMovieTitle");
-        System.out.println(getLongestMovieTitle(allMovies));
+            System.out.println("getLongestMovieTitle");
+            System.out.println(getLongestMovieTitle(allMovies));
 
-        System.out.println("count movies from Zemeckis");
-        System.out.println(countMoviesFrom(allMovies, "Robert Zemeckis"));
+            System.out.println("count movies from Zemeckis");
+            System.out.println(countMoviesFrom(allMovies, "Robert Zemeckis"));
 
-        System.out.println("count movies from Steven Spielberg");
-        System.out.println(countMoviesFrom(allMovies, "Steven Spielberg"));
+            System.out.println("count movies from Steven Spielberg");
+            System.out.println(countMoviesFrom(allMovies, "Steven Spielberg"));
 
-        System.out.println("getMoviewsBetweenYears");
-        List<Movie> between = getMoviesBetweenYears(allMovies, 1994, 2000);
-        System.out.println(between.size());
-        System.out.println(between.stream().map(Objects::toString).collect(Collectors.joining(", ")));
+            System.out.println("getMoviewsBetweenYears");
+            List<Movie> between = getMoviesBetweenYears(allMovies, 1994, 2000);
+            System.out.println(between.size());
+            System.out.println(between.stream().map(Objects::toString).collect(Collectors.joining(", ")));
+        } catch (MovieApiException e) {
+            MovieCell.showExceptionDialog(e);
+        }
+
     }
 
     public void initializeLayout() {
@@ -218,7 +224,12 @@ public class HomeController implements Initializable {
     }
 
     public List<Movie> getMovies(String searchQuery, Genre genre, String releaseYear, String ratingFrom) {
-        return MovieAPI.getAllMovies(searchQuery, genre, releaseYear, ratingFrom);
+        try {
+            return MovieAPI.getAllMovies(searchQuery, genre, releaseYear, ratingFrom);
+        } catch (MovieApiException e) {
+           MovieCell.showExceptionDialog(e);
+        }
+        return new ArrayList<>();
     }
 
     public void sortBtnClicked(ActionEvent actionEvent) {
@@ -265,10 +276,7 @@ public class HomeController implements Initializable {
             stage.setScene(scene);
 
         } catch (IOException ioe) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error has occurred.");
-            alert.setContentText("Error while loading.");
+            MovieCell.showExceptionDialog(new IllegalArgumentException("Watchlist cannot be loaded"));
         }
     }
 }

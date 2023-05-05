@@ -35,7 +35,6 @@ public class WatchlistRepository {
         }
     }
 
-
     private WatchlistEntity movieToEntity(Movie movie)
     {
         return new WatchlistEntity(movie.getId(), movie.getTitle(), movie.getDescription(), WatchlistEntity.genresToString(movie.getGenres()), movie.getReleaseYear(), movie.getImgUrl(), movie.getLengthInMinutes(), movie.getRating());

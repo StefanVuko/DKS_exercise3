@@ -1,5 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.contoller;
 
+import at.ac.fhcampuswien.fhmdb.Exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistEntity;
 import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
@@ -45,7 +46,7 @@ public class WatchlistViewController {
         try {
             watchlist = repo.getAll();
         } catch (SQLException e) {
-            throw new RuntimeException();
+            MovieCell.showExceptionDialog(new DatabaseException("Database problem"));
         }
 
         ObservableList<Movie> movies = FXCollections.observableArrayList(

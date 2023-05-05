@@ -1,6 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.datalayer;
 
 
+import at.ac.fhcampuswien.fhmdb.Exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
@@ -26,18 +28,15 @@ public class Database {
             dao = DaoManager.createDao(connectionSource, WatchlistEntity.class);
             createTables();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            MovieCell.showExceptionDialog(new DatabaseException("Database problem"));
         }
-
     }
-
     public static Database getInstance()
     {
         if(instance == null)
         {
             instance = new Database();
         }
-
         return instance;
     }
 
@@ -59,8 +58,10 @@ public class Database {
         TableUtils.createTableIfNotExists(connectionSource, WatchlistEntity.class);
     }
 
-    public void testDB() throws SQLException {
+ /*   public void testDB() throws SQLException {
         WatchlistEntity movie = new WatchlistEntity("aa", "OK", "ok", "YES", 2002, "OK", 230, 10);
         dao.create(movie);
     }
+
+  */
 }

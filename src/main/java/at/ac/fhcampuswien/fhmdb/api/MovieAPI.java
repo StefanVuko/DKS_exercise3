@@ -1,8 +1,10 @@
 package at.ac.fhcampuswien.fhmdb.api;
 
+import at.ac.fhcampuswien.fhmdb.Exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.Exceptions.MovieApiException;
 import at.ac.fhcampuswien.fhmdb.models.Genre;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import javafx.scene.control.Alert;
 import okhttp3.*;
 import com.google.gson.Gson;
@@ -48,15 +50,14 @@ public class MovieAPI {
                 url.append("ratingFrom=").append(ratingFrom).append(DELIMITER);
             }
         }
-
         return url.toString();
     }
 
-    public static List<Movie> getAllMovies() {
+    public static List<Movie> getAllMovies() throws MovieApiException {
         return getAllMovies(null, null, null, null);
     }
 
-    public static List<Movie> getAllMovies(String query, Genre genre, String releaseYear, String ratingFrom){
+    public static List<Movie> getAllMovies(String query, Genre genre, String releaseYear, String ratingFrom) throws MovieApiException{
         String url = buildUrl(query, genre, releaseYear, ratingFrom);
         Request request = new Request.Builder()
                 .url(url)
@@ -70,20 +71,11 @@ public class MovieAPI {
             Movie[] movies = gson.fromJson(responseBody, Movie[].class);
             return Arrays.asList(movies);
         }
-        catch (MovieApiException mae) {
-            mae.throwAlert();
-        }
         catch (IOException ioe) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error has occurred.");
-            alert.setContentText("Http error.");
+            throw new MovieApiException("All movies cannot be loaded");
         }
-
-        return new ArrayList<>();
     }
-
-    public Movie requestMovieById(UUID id){
+  /*  public Movie requestMovieById(UUID id){
         String url = buildUrl(id);
         Request request = new Request.Builder()
                 .url(url)
@@ -92,15 +84,11 @@ public class MovieAPI {
         try (Response response = client.newCall(request).execute()) {
             Gson gson = new Gson();
             return gson.fromJson(response.body().string(), Movie.class);
-        } catch (MovieApiException mae) {
-            mae.throwAlert();
         } catch (IOException ioe) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error has occurred.");
-            alert.setContentText("Http error.");
+            MovieCell.showExceptionDialog(new IllegalArgumentException());
         }
-
         return null;
     }
+
+   */
 }

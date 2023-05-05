@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 
 import java.sql.SQLException;
 
-public class DatabaseException extends SQLException {
+public class DatabaseException extends Exception {
 
     public DatabaseException(){}
 
@@ -20,10 +20,12 @@ public class DatabaseException extends SQLException {
         super(message, cause);
     }
 
-    public void throwAlert() {
+    /*public void throwAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("An error has occurred.");
         alert.setContentText("Error while loading./nDatabaseException");
     }
+
+     */
 }
