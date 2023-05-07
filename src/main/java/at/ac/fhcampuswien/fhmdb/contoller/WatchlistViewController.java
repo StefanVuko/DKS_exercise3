@@ -68,10 +68,7 @@ public class WatchlistViewController {
             stage.setScene(scene);
 
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error has occurred.");
-            alert.setContentText("Error while loading.");
+            MovieCell.showExceptionDialog(new IllegalArgumentException("Error while loading"));
         }
     }
 

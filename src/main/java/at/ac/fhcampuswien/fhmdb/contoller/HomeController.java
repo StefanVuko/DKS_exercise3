@@ -93,8 +93,8 @@ public class HomeController implements Initializable {
             List<Movie> between = getMoviesBetweenYears(allMovies, 1994, 2000);
             System.out.println(between.size());
             System.out.println(between.stream().map(Objects::toString).collect(Collectors.joining(", ")));
-        } catch (MovieApiException e) {
-            MovieCell.showExceptionDialog(e);
+        } catch (MovieApiException mae) {
+            MovieCell.showExceptionDialog(mae);
         }
 
     }
@@ -176,7 +176,7 @@ public class HomeController implements Initializable {
         if(genre == null) return movies;
 
         if(movies == null) {
-            throw new IllegalArgumentException("movies must not be null");
+            MovieCell.showExceptionDialog(new IllegalArgumentException("movies must not be null"));
         }
 
         return movies.stream().filter(movie -> movie.getGenres().contains(genre)).toList();
@@ -226,8 +226,8 @@ public class HomeController implements Initializable {
     public List<Movie> getMovies(String searchQuery, Genre genre, String releaseYear, String ratingFrom) {
         try {
             return MovieAPI.getAllMovies(searchQuery, genre, releaseYear, ratingFrom);
-        } catch (MovieApiException e) {
-           MovieCell.showExceptionDialog(e);
+        } catch (MovieApiException mae) {
+           MovieCell.showExceptionDialog(mae);
         }
         return new ArrayList<>();
     }

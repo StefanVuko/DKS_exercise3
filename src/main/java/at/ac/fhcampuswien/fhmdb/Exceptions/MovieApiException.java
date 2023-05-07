@@ -4,7 +4,7 @@ import javafx.scene.control.Alert;
 
 import java.io.IOException;
 
-public class MovieApiException extends Exception {
+public class MovieApiException extends IOException {
 
     public MovieApiException(){}
 
