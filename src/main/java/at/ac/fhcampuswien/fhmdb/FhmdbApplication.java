@@ -12,14 +12,9 @@ import java.util.Objects;
 
 public class FhmdbApplication extends Application {
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load(), 890, 620);
-        } catch (IOException e) {
-            MovieCell.showExceptionDialog(new IllegalAccessError("Scene cannot be loaded"));
-        }
+        Scene scene = new Scene(fxmlLoader.load(), 890, 620);
         scene.getStylesheets().add(Objects.requireNonNull(FhmdbApplication.class.getResource("styles.css")).toExternalForm());
         stage.setTitle("FHMDb!");
         stage.setScene(scene);
