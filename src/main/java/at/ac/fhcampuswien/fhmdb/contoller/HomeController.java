@@ -279,4 +279,5 @@ public class HomeController implements Initializable {
             MovieCell.showExceptionDialog(new IllegalArgumentException("Watchlist cannot be loaded"));
         }
     }
+
 }
