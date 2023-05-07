@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class Database {
     public static final String DB_URL = "jdbc:h2:file: ./db/moviesDB";
-    public static final String username = "use";
+    public static final String username = "user";
     public static final String password = "pass";
 
     private static ConnectionSource connectionSource;
