@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -37,16 +38,38 @@ public class WatchlistViewController {
     public VBox mainPane;
     @FXML
     public JFXListView movieWatchlistView;
-    WatchlistRepository repo;
+    private WatchlistRepository repository = new WatchlistRepository();
+
+    private final ClickEventHandler onAddToWatchlistClicked = (clickedItem, isWatchlistCell, addToWatchlistBtn) -> {
+        if (isWatchlistCell) {
+            try {
+                repository.removeFromWatchlist((Movie)clickedItem);
+                FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("watchlist-view.fxml"));
+                Parent root = FXMLLoader.load(fxmlLoader.getLocation());
+                Scene scene = addToWatchlistBtn.getScene();
+                scene.setRoot(root);
+            } catch (SQLException e) {
+                MovieCell.showExceptionDialog(new DatabaseException("Error by deleting movies"));
+            } catch (IOException e) {
+                MovieCell.showExceptionDialog(new IllegalArgumentException("Fxml cannot be loaded"));
+            }
+        } else {
+            try {
+                repository.addToWatchlist((Movie)clickedItem);
+            } catch (SQLException e) {
+                MovieCell.showExceptionDialog(new DatabaseException("Error by adding to watchlist"));
+            }
+        }
+    };
 
     public void initialize() {
         System.out.println("WatchlistViewController initialized");
 
-        repo = new WatchlistRepository();
+        //repo = new WatchlistRepository();
         List<WatchlistEntity> watchlist = new ArrayList<>();
 
         try {
-            watchlist = repo.getAll();
+            watchlist = repository.getAll();
         } catch (SQLException e) {
             MovieCell.showExceptionDialog(new DatabaseException("Database problem"));
         }
@@ -58,7 +81,7 @@ public class WatchlistViewController {
         );
 
         movieWatchlistView.setItems(movies);
-        movieWatchlistView.setCellFactory(movieListView -> new MovieCell(true));
+        movieWatchlistView.setCellFactory(movieListView -> new MovieCell(true, onAddToWatchlistClicked));
     }
 
     public void loadHomeView() {

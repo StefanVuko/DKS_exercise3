@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.fhmdb.ui;
 import at.ac.fhcampuswien.fhmdb.Exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
 import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
+import at.ac.fhcampuswien.fhmdb.models.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,7 @@ public class MovieCell extends ListCell<Movie> {
 
     WatchlistRepository repository = new WatchlistRepository();
 
-    public MovieCell(boolean isWatchlistCell) {
+    public MovieCell(boolean isWatchlistCell, ClickEventHandler addToWatchlistClicked) {
         super();
         this.isWatchlistCell = isWatchlistCell;
         // color scheme
@@ -69,7 +70,7 @@ public class MovieCell extends ListCell<Movie> {
         });
 
         addToWatchlistBtn.setText(isWatchlistCell ? "Remove" : "Add to watchlist");
-        addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
+        /*addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
             if (isWatchlistCell) {
                 try {
                     repository.removeFromWatchlist(getItem());
@@ -89,6 +90,9 @@ public class MovieCell extends ListCell<Movie> {
                     MovieCell.showExceptionDialog(new DatabaseException("Error by adding to watchlist"));
                 }
             }
+        });*/
+        addToWatchlistBtn.setOnMouseClicked(mouseEvent -> {
+            addToWatchlistClicked.onClick(getItem(), isWatchlistCell, addToWatchlistBtn);
         });
     }
 
