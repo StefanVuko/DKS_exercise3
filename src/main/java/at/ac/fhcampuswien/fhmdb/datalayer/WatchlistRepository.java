@@ -1,6 +1,5 @@
 package at.ac.fhcampuswien.fhmdb.datalayer;
 
-import at.ac.fhcampuswien.fhmdb.contoller.WatchlistViewController;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.j256.ormlite.dao.Dao;
 

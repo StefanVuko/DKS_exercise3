@@ -1,25 +1,13 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
-import at.ac.fhcampuswien.fhmdb.Exceptions.DatabaseException;
-import at.ac.fhcampuswien.fhmdb.FhmdbApplication;
-import at.ac.fhcampuswien.fhmdb.datalayer.WatchlistRepository;
+
 import at.ac.fhcampuswien.fhmdb.models.ClickEventHandler;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.jfoenix.controls.JFXButton;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import org.h2.jdbc.JdbcSQLException;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.URL;
-import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 public class MovieCell extends ListCell<Movie> {
@@ -33,7 +21,6 @@ public class MovieCell extends ListCell<Movie> {
 
     private final boolean isWatchlistCell;
 
-    WatchlistRepository repository = new WatchlistRepository();
 
     public MovieCell(boolean isWatchlistCell, ClickEventHandler addToWatchlistClicked) {
         super();
